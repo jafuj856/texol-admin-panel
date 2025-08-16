@@ -20,7 +20,7 @@ const handleApiError = (error) => {
     console.error("Status:", error.response.status);
     console.error("Headers:", error.response.headers);
 
-    if (error.response.data.message === "Invalid token") {
+    if (error.response.status === "Not authorized") {
       toast.error(error.response.data.message, {
         onClose: () => {
           localStorage.clear();

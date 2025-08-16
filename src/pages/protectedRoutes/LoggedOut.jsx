@@ -5,7 +5,7 @@ const LoggedOut = () => {
   const role = localStorage.getItem("role");
 
   if (user && role === "admin") {
-    return <Navigate to="/admin" />;
+    return <Navigate to="/" />;
   }
 
   return <Outlet />;

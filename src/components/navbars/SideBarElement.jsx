@@ -8,7 +8,8 @@ function SideBarElement({ text, icon, path }) {
 
   const handleClick = () => {
     if (text === "Logout") {
-      setIsLogoutModalOpen(true);
+      localStorage.clear();
+      navigate("/auth");
     } else {
       navigate(path);
     }
