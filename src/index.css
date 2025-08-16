@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@theme {
+  --color-buttonColor: #ff7a00;
+  --font-instrument: "Instrument Sans", "sans-serif";
+  --font-urbanist: "Urbanist", "sans-serif";
+}

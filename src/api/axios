@@ -1,0 +1,106 @@
+import axios from "axios";
+import { toast } from "react-toastify";
+
+const customNavigate = (path) => {
+  window.location.href = path;
+};
+const token = localStorage.getItem("token");
+const BASE_URL = "http://localhost:5000/api/";
+// const BASE_URL = "http://localhost:8003/";
+const api = axios.create({
+  baseURL: BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+  },
+});
+
+const handleApiError = (error) => {
+  if (error.response) {
+    console.error("Data:", error.response.data);
+    console.error("Status:", error.response.status);
+    console.error("Headers:", error.response.headers);
+
+    if (error.response.data.message === "Invalid token") {
+      toast.error(error.response.data.message, {
+        onClose: () => {
+          localStorage.clear();
+          customNavigate("/auth");
+        },
+      });
+    } else {
+      toast.error(error.response.data.message);
+    }
+  } else if (error.request) {
+    console.error("Request:", error.request);
+  } else {
+    console.error("Error:", error.message);
+  }
+  console.error("Config:", error.config);
+};
+
+const getAuthToken = () => localStorage.getItem("token");
+
+export const apiService = {
+  async get(endpoint, requiresAuth = true) {
+    try {
+      const config = {
+        headers: {
+          Authorization: `Bearer ${getAuthToken()}`,
+          country: "india",
+        },
+      };
+
+      const response = await api.get(endpoint, requiresAuth ? config : null);
+      return response.data;
+    } catch (error) {
+      handleApiError(error);
+      throw error;
+    }
+  },
+
+  async post(endpoint, data = {}, requiresAuth = true) {
+    try {
+      const config = {
+        headers: requiresAuth
+          ? { Authorization: `Bearer ${getAuthToken()}`, country: "india" }
+          : {},
+      };
+      const response = await api.post(endpoint, data, config);
+      return response.data;
+    } catch (error) {
+      handleApiError(error);
+      throw error;
+    }
+  },
+
+  async put(endpoint, data = {}, requiresAuth = true) {
+    try {
+      const config = {
+        headers: requiresAuth
+          ? { Authorization: `Bearer ${getAuthToken()}`, country: "india" }
+          : {},
+      };
+      const response = await api.put(endpoint, data, config);
+      return response.data;
+    } catch (error) {
+      handleApiError(error);
+      throw error;
+    }
+  },
+
+  async delete(endpoint, data = {}, requiresAuth = true) {
+    const token = getAuthToken(); // Use getAuthToken to be consistent with other methods
+    console.log("Token in DELETE request:", data);
+
+    try {
+      const response = await api.delete(endpoint, data);
+      return response.data;
+    } catch (error) {
+      handleApiError(error);
+      throw error;
+    }
+  },
+};
+
+export default api;
