@@ -1,8 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import SideBarElement from "./SideBarElement";
 import { useLocation } from "react-router-dom";
 import { openSidebar } from "../../redux/feature/navBarSlice";
+import SideBarElement from "./SideBarElement";
 
 function SideBar() {
   const location = useLocation().pathname;
@@ -152,7 +152,7 @@ function SideBar() {
           />
           <SideBarElement
             text="Add Product"
-            path="add-product"
+            path="/add-product"
             icon={
               <svg
                 width="24"

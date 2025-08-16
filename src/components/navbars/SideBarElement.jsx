@@ -4,7 +4,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 function SideBarElement({ text, icon, path }) {
   const location = useLocation().pathname;
   const navigate = useNavigate();
-
   const isActive = location === path;
 
   const handleClick = () => {

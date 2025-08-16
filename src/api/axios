@@ -5,12 +5,11 @@ const customNavigate = (path) => {
   window.location.href = path;
 };
 const token = localStorage.getItem("token");
-const BASE_URL = "http://localhost:5000/api/";
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 // const BASE_URL = "http://localhost:8003/";
 const api = axios.create({
-  baseURL: BASE_URL,
+  baseURL: baseURL,
   headers: {
-    "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
   },
 });
@@ -47,7 +46,6 @@ export const apiService = {
       const config = {
         headers: {
           Authorization: `Bearer ${getAuthToken()}`,
-          country: "india",
         },
       };
 
@@ -61,27 +59,30 @@ export const apiService = {
 
   async post(endpoint, data = {}, requiresAuth = true) {
     try {
-      const config = {
-        headers: requiresAuth
-          ? { Authorization: `Bearer ${getAuthToken()}`, country: "india" }
-          : {},
-      };
-      const response = await api.post(endpoint, data, config);
+      const headers = requiresAuth
+        ? { Authorization: `Bearer ${getAuthToken()}` }
+        : {};
+      const response = await api.post(endpoint, data, { headers });
       return response.data;
     } catch (error) {
       handleApiError(error);
       throw error;
     }
   },
-
   async put(endpoint, data = {}, requiresAuth = true) {
+    if (data instanceof FormData) {
+      for (let [key, value] of data.entries()) {
+        console.log(key, value);
+      }
+    } else {
+      console.log(data);
+    }
+
     try {
-      const config = {
-        headers: requiresAuth
-          ? { Authorization: `Bearer ${getAuthToken()}`, country: "india" }
-          : {},
-      };
-      const response = await api.put(endpoint, data, config);
+      const headers = requiresAuth
+        ? { Authorization: `Bearer ${getAuthToken()}` }
+        : {};
+      const response = await api.put(endpoint, data, { headers });
       return response.data;
     } catch (error) {
       handleApiError(error);

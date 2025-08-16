@@ -1,6 +1,6 @@
 import z from "zod";
 
-export const productSchema = z.object({
+export const baseProductSchema = {
   name: z.string().min(1, "Product name is required"),
   description: z.string().min(1, "Description is required"),
   price: z
@@ -10,7 +10,6 @@ export const productSchema = z.object({
   stock: z
     .number({ invalid_type_error: "Stock must be a number" })
     .nonnegative("Stock cannot be negative"),
-  section: z.string().min(1, "Section is required"), // ✅ section validation
   images: z
     .any()
     .refine((files) => files && files.length > 0, {
@@ -19,7 +18,11 @@ export const productSchema = z.object({
     .refine((files) => files && files.length <= 4, {
       message: "You can only upload a maximum of 4 images",
     }),
-});
+};
+
+export const addProductSchema = z.object(baseProductSchema);
+export const editProductSchema = z.object(baseProductSchema).partial();
+
 export const loginSchema = z.object({
   email: z
     .string()

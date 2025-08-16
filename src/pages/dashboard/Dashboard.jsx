@@ -4,9 +4,11 @@ import { Search } from "lucide-react";
 import NotFount from "../../components/notFound/NotFount";
 import Loading from "../../components/loading/Loading";
 import StockUpdate from "../../components/stockUpdate/StockUpdate";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
   const [search, setSearch] = useState("");
+  const navigate = useNavigate();
   const { data, isLoading, error } = useGetProducts(search);
   const [stockAdd, setStockAdd] = useState("");
 
@@ -29,11 +31,13 @@ function Dashboard() {
       <div className="w-full overflow-x-auto">
         <table className="w-full min-w-[600px] text-left font-urbanist">
           <thead className="bg-buttonColor/20 text-sm">
-            <th className="px-4 py-1 font-semibold ">Product Id</th>
-            <th className="px-4 py-1 font-semibold ">Product Name</th>
-            <th className="px-4 py-1 font-semibold ">Product Price</th>
-            <th className="px-4 py-1 font-semibold ">Product Stock</th>
-            <th className="px-4 py-1 font-semibold ">Action</th>
+            <tr>
+              <th className="px-4 py-1 font-semibold ">Product Id</th>
+              <th className="px-4 py-1 font-semibold ">Product Name</th>
+              <th className="px-4 py-1 font-semibold ">Product Price</th>
+              <th className="px-4 py-1 font-semibold ">Product Stock</th>
+              <th className="px-4 py-1 font-semibold ">Action</th>
+            </tr>
           </thead>
           <tbody>
             {data?.length > 0 &&
@@ -42,7 +46,12 @@ function Dashboard() {
                 console.log(item);
 
                 return (
-                  <tr className="py-3 border-b border-black/20 cursor-ponter">
+                  <tr
+                    onClick={() =>
+                      navigate("/product-deatil", { state: { product: item } })
+                    }
+                    className="py-3 border-b border-black/20 cursor-pointer"
+                  >
                     <td className="px-4 py-3 text-xc md:text-sm ">
                       {item?._id}
                     </td>
@@ -80,11 +89,13 @@ function Dashboard() {
       <div className="w-full overflow-x-auto">
         <table className="w-full min-w-[600px] text-left font-urbanist">
           <thead className="bg-buttonColor/20 text-sm">
-            <th className="px-4 py-1 font-semibold ">Order Id</th>
-            <th className="px-4 py-1 font-semibold ">Product Name</th>
-            <th className="px-4 py-1 font-semibold ">Product Price</th>
-            <th className="px-4 py-1 font-semibold ">order Count</th>
-            <th className="px-4 py-1 font-semibold ">Action</th>
+            <tr>
+              <th className="px-4 py-1 font-semibold ">Order Id</th>
+              <th className="px-4 py-1 font-semibold ">Product Name</th>
+              <th className="px-4 py-1 font-semibold ">Product Price</th>
+              <th className="px-4 py-1 font-semibold ">order Count</th>
+              <th className="px-4 py-1 font-semibold ">Action</th>
+            </tr>
           </thead>
           <tbody>
             <tr className="py-3 border-b border-black/20">

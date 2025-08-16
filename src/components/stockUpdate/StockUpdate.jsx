@@ -9,7 +9,7 @@ function StockUpdate({ isOpen, onClose }) {
   const handleSubmit = () => {
     if (stock === 0) return toast.error("please fill stock field");
     mutate(
-      { stock: isOpen },
+      { stock: stock, id: isOpen },
       {
         onSuccess: (data) => {
           console.log(data);

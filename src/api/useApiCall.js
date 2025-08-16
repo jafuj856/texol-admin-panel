@@ -39,3 +39,30 @@ export const useUpdateProduct = () => {
     },
   });
 };
+export const useAddProduct = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (payload) => {
+      for (let [key, value] of payload.entries()) {
+        console.log(key, value);
+      }
+
+      const res = await apiService.post("/products", payload);
+      return res;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["getProduct"] });
+    },
+  });
+};
+export const useDeleteProduct = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id) => {
+      return await apiService.delete(`/products/${id}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["getProduct"] });
+    },
+  });
+};
