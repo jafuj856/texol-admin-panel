@@ -20,13 +20,10 @@ const handleApiError = (error) => {
     console.error("Status:", error.response.status);
     console.error("Headers:", error.response.headers);
 
-    if (error.response.status === "Not authorized") {
-      toast.error(error.response.data.message, {
-        onClose: () => {
-          localStorage.clear();
-          customNavigate("/auth");
-        },
-      });
+    if (error.response.data.message === "Not authorized") {
+      toast.error(error.response.data.message);
+      localStorage.clear();
+      customNavigate("/auth");
     } else {
       toast.error(error.response.data.message);
     }
