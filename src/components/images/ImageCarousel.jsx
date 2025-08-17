@@ -28,7 +28,7 @@ export default function ImageCarousel({ images = [] }) {
   return (
     <div className="relative w-full max-w-[340px] flex items-center justify-center rounded-md border border-black/10 shadow p-5">
       <img
-        src={`${baseURL}/uploads/${displayImages[currentIndex]}`}
+        src={`${displayImages[currentIndex]}`}
         alt={`image-${currentIndex}`}
         className="w-full max-h-[250px] rounded-2xl max-w-[250px] object-cover"
       />
