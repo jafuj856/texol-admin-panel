@@ -88,11 +88,11 @@ export const apiService = {
   },
 
   async delete(endpoint, data = {}, requiresAuth = true) {
-    const token = getAuthToken(); // Use getAuthToken to be consistent with other methods
-    console.log("Token in DELETE request:", data);
-
     try {
-      const response = await api.delete(endpoint, data);
+ const headers = requiresAuth
+        ? { Authorization: `Bearer ${getAuthToken()}` }
+        : {};
+      const response = await api.delete(endpoint, data,{headers});
       return response.data;
     } catch (error) {
       handleApiError(error);
